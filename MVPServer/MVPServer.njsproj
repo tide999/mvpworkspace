@@ -1,0 +1,115 @@
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">14.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <Name>MVPServer</Name>
+    <RootNamespace>MVPServer</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>388b47d9-0203-47eb-99c3-54cb0a9af2cb</ProjectGuid>
+    <ProjectHome>.</ProjectHome>
+    <StartupFile>server.js</StartupFile>
+    <SearchPath>
+    </SearchPath>
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{349c5851-65df-11da-9384-00065b846f21};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
+    <NodejsPort>1337</NodejsPort>
+    <StartWebBrowser>true</StartWebBrowser>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="app\config\db.config.js" />
+    <Content Include="app\config\env.js" />
+    <Content Include="app\controller\instrument.controller.js" />
+    <Content Include="app\controller\realtime.controller.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="app\controller\system-define.controller.js" />
+    <Content Include="app\model\instrument.model.js" />
+    <Content Include="app\model\TAB_ALARM_DEFINE.js" />
+    <Content Include="app\model\TAB_ALARM_REALTIME.js" />
+    <Content Include="app\model\TAB_CONTROL.js" />
+    <Content Include="app\model\TAB_DEEPDECT_HISTORY.js" />
+    <Content Include="app\model\TAB_DEEPDECT_REALTIME.js" />
+    <Content Include="app\model\TAB_IDATA_ARGUMENTS.js" />
+    <Content Include="app\model\TAB_INSTRUMENT.js" />
+    <Content Include="app\model\TAB_JOB.js" />
+    <Content Include="app\model\TAB_JOB_REALTIME.js" />
+    <Content Include="app\model\TAB_LOCATION_HISTORY.js" />
+    <Content Include="app\model\TAB_LOCATION_REALTIME.js" />
+    <Content Include="app\model\TAB_MFish-8_HISTORY.js" />
+    <Content Include="app\model\TAB_MFish-8_REALTIME.js" />
+    <Content Include="app\model\TAB_MVP4000_HISTORY.js" />
+    <Content Include="app\model\TAB_MVP4000_REALTIME.js" />
+    <Content Include="app\model\TAB_ORIGINAL_HISTORY.js" />
+    <Content Include="app\model\TAB_ORIGINAL_REALTIME.js" />
+    <Content Include="app\model\TAB_SHOW_DEFINE.js" />
+    <Content Include="app\model\TAB_SYSTEM_DEFINE.js" />
+    <Content Include="app\model\TAB_WDATA_DEFINE.js" />
+    <Content Include="app\model\TAB_WDIGIT_DEFINE.js" />
+    <Content Include="app\model\TAB_WINCH.js" />
+    <Content Include="app\route\dataset.route.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="app\route\system-define.route.js" />
+    <Content Include="server.js" />
+    <Content Include="package.json" />
+    <Content Include="README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="app\" />
+    <Folder Include="app\config\" />
+    <Folder Include="app\model\" />
+    <Folder Include="app\controller\" />
+    <Folder Include="app\route\" />
+  </ItemGroup>
+  <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsToolsV2.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:48022/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>True</UseCustomServer>
+          <CustomServerUrl>http://localhost:1337</CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}" User="">
+        <WebProjectProperties>
+          <StartPageUrl>
+          </StartPageUrl>
+          <StartAction>CurrentPage</StartAction>
+          <AspNetDebugging>True</AspNetDebugging>
+          <SilverlightDebugging>False</SilverlightDebugging>
+          <NativeDebugging>False</NativeDebugging>
+          <SQLDebugging>False</SQLDebugging>
+          <ExternalProgram>
+          </ExternalProgram>
+          <StartExternalURL>
+          </StartExternalURL>
+          <StartCmdLineArguments>
+          </StartCmdLineArguments>
+          <StartWorkingDirectory>
+          </StartWorkingDirectory>
+          <EnableENC>False</EnableENC>
+          <AlwaysStartWebServerOnDebug>False</AlwaysStartWebServerOnDebug>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>
