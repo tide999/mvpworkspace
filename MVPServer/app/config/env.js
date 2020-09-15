@@ -28,7 +28,7 @@ const env = {
         params: db_params
     },
     winchDB: {
-        database: 'DB_DATASET',
+        database: 'DB_WINCH',
         params: db_params
     }
 };

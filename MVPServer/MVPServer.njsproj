@@ -35,6 +35,9 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="app\controller\system-define.controller.js" />
+    <Content Include="app\controller\winch.controller.js">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="app\model\instrument.model.js" />
     <Content Include="app\model\TAB_ALARM_DEFINE.js" />
     <Content Include="app\model\TAB_ALARM_REALTIME.js" />
@@ -62,6 +65,9 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="app\route\system-define.route.js" />
+    <Content Include="app\route\winch.route.js">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="server.js" />
     <Content Include="package.json" />
     <Content Include="README.md" />
