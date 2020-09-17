@@ -12,6 +12,17 @@ const corsOptions = {
 }
 app.use(cors(corsOptions))
 
+app.all('*', function (req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild');
+    res.header('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
+    if (req.method == 'OPTIONS') {
+        res.send(200);
+    } else {
+        next();
+    }
+});
+
 const db = require('./app/config/db.config.js');
 
 /*
@@ -31,6 +42,7 @@ app.get("/", (req, res) => {
 require('./app/route/system-define.route')(app);
 require('./app/route/dataset.route')(app);
 require('./app/route/winch.route')(app);
+require('./app/route/job.route')(app);
 
 // Create a Server
 var server = app.listen(8080, function () {

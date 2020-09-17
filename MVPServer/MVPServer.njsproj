@@ -31,6 +31,10 @@
     <Content Include="app\config\db.config.js" />
     <Content Include="app\config\env.js" />
     <Content Include="app\controller\instrument.controller.js" />
+    <Content Include="app\controller\job.controller.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="app\controller\job.controller.jsbak" />
     <Content Include="app\controller\realtime.controller.js">
       <SubType>Code</SubType>
     </Content>
@@ -62,6 +66,9 @@
     <Content Include="app\model\TAB_WDIGIT_DEFINE.js" />
     <Content Include="app\model\TAB_WINCH.js" />
     <Content Include="app\route\dataset.route.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="app\route\job.route.js">
       <SubType>Code</SubType>
     </Content>
     <Content Include="app\route\system-define.route.js" />
