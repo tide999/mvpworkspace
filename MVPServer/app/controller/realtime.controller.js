@@ -14,16 +14,16 @@ exports.findAll = (req, res) => {
     const limitCount = req.query.limit;
     var query_stmt = "SELECT * FROM VW_DATA_REALTIME";
     if (startTime)
-        query_stmt += " where timeTag >= $start_time";
+        query_stmt += " where timeTag > $start_time";
     if (limitCount)
         query_stmt += " limit $limit_count"
     db.query(query_stmt, {
             //model: RealTime,
-        //mapToModel: false // Èç¹ûÓÐÈÎºÎÓ³Éä×Ö¶Î£¬ÔòÔÚÕâÀï´«µÝtrue
-        bind: {
-            start_time: startTime,
-            limit_count: limitCount
-        },
+            //mapToModel: false // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îºï¿½Ó³ï¿½ï¿½ï¿½Ö¶Î£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï´«ï¿½ï¿½true
+            bind: {
+                start_time: startTime,
+                limit_count: limitCount
+            },
             type: db.QueryTypes.SELECT
         })
         .then(real_data => {
@@ -37,19 +37,18 @@ exports.exportRealtimeData = (req, res) => {
     const limitCount = req.query.limit;
     var query_stmt = "SELECT * FROM VW_DATA_REALTIME";
     db.query(query_stmt, {
-          type: db.QueryTypes.SELECT
-    })
+            type: db.QueryTypes.SELECT
+        })
         .then(real_data => {
             const jsonData = JSON.parse(JSON.stringify(real_data));
             console.log("jsonData", jsonData);
 
             fastcsv
                 .write(jsonData, { headers: true })
-                .on("finish", function () {
+                .on("finish", function() {
                     console.log("Write to csv successfully!");
-                    res.json({fileName: export_file});
+                    res.json({ fileName: export_file });
                 })
                 .pipe(ws);
         })
 };
-
