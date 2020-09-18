@@ -1,21 +1,21 @@
-
 const db_params = {
     username: 'root',
-    password: '123456',
-    host: '192.168.92.152',
+    password: 'op[]op[]',
+    host: 'localhost',
     dialect: 'mysql',
     pool: {
         max: 5,
         min: 0,
         acquire: 30000,
         idle: 10000
-    }, define: {
+    },
+    define: {
         timestamps: false
     }
 };
 
 const env = {
-    sysDB:{
+    sysDB: {
         database: 'DB_SYSTEM',
         params: db_params
     },
