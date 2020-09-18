@@ -14,7 +14,7 @@ exports.findAll = (req, res) => {
     const limitCount = req.query.limit;
     var query_stmt = "SELECT * FROM VW_DATA_REALTIME";
     if (startTime)
-        query_stmt += " where timeTag >= $start_time";
+        query_stmt += " where timeTag > $start_time";
     if (limitCount)
         query_stmt += " limit $limit_count"
     db.query(query_stmt, {

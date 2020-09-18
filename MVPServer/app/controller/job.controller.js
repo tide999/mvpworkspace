@@ -48,7 +48,7 @@ exports.add_job = (req, res) => {
     const jobMode = req.body.jobMode;
     const jobDeep = req.body.jobDeep;
     const dropTimes = req.body.dropTimes;
-    const intervalTime = req.body.intervalTime;
+    const intervalTimes = req.body.intervalTime;
     const safeDeep = req.body.safeDeep;
 
     var execStmt = "CALL sp_addJob(:jobName, :jobMode, :jobDeep, :dropTimes, :intervalTimes, :safeDeep)";
