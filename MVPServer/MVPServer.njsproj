@@ -34,7 +34,6 @@
     <Content Include="app\controller\job.controller.js">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="app\controller\job.controller.jsbak" />
     <Content Include="app\controller\realtime.controller.js">
       <SubType>Code</SubType>
     </Content>

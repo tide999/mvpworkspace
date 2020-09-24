@@ -1,7 +1,5 @@
 const fastcsv = require("fast-csv");
-const fs = require("fs");
-const export_file = "job-realtime-data.csv";
-const ws = fs.createWriteStream(export_file);
+const g_fs = require("fs");
 
 const db = require('../config/db.config.js').jobdb;
 
@@ -88,9 +86,13 @@ exports.get_real_data = (req, res) => {
         })
 };
 
-exports.export_realtime_data = (req, res) => {
+exports.export_data = (req, res) => {
+    var his_table_name = "TAB_JOB_";
+    his_table_name += req.query.jobId;
+    var query_stmt = "SELECT * FROM  " + his_table_name + " order by tagTime";
+    var file_name = req.query.jobId;
+    const ws = g_fs.createWriteStream(file_name);
 
-    var query_stmt = "SELECT * FROM VW_JOB_REALTIME";
     db.query(query_stmt, {
         type: db.QueryTypes.SELECT
     })
@@ -102,12 +104,49 @@ exports.export_realtime_data = (req, res) => {
                 .write(jsonData, { headers: true })
                 .on("finish", function () {
                     console.log("Write to csv successfully!");
-                    res.json({ fileName: export_file });
+                    res.json({ fileName: file_name });
                 })
                 .pipe(ws);
         })
 };
 
+
+exports.get_running_job = (req, res) => {
+    var query_stmt = "SELECT * FROM VW_JOB_REALTIME where jobStatus = 48 order by issuedTime, runTimes desc";
+    db.query(query_stmt, {
+        type: db.QueryTypes.SELECT
+    })
+        .then(real_data => {
+            res.send(real_data);
+        })
+};
+
+exports.get_waiting_job = (req, res) => {
+    var query_stmt = "SELECT * FROM VW_JOB_REALTIME where jobStatus = 3 order by issuedTime desc";
+    db.query(query_stmt, {
+        type: db.QueryTypes.SELECT
+    })
+        .then(real_data => {
+            res.send(real_data);
+        })
+};
+
+
+exports.get_job_realdata = (req, res) => {
+    const jobId = req.query.jobId;
+    var query_stmt = "SELECT * FROM VW_JOB_REALTIME";
+    if (startTime)
+        query_stmt += " where jobId >= $jobId order by runTimes desc limit 1";
+    db.query(query_stmt, {
+        bind: {
+            jobId: jobId
+        },
+        type: db.QueryTypes.SELECT
+    })
+        .then(real_data => {
+            res.send(real_data);
+        })
+};
 
 
 /*

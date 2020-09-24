@@ -40,9 +40,10 @@ app.get("/", (req, res) => {
 */
 
 require('./app/route/system-define.route')(app);
-require('./app/route/dataset.route')(app);
 require('./app/route/winch.route')(app);
 require('./app/route/job.route')(app);
+
+require('./app/route/dataset.route')(app);
 
 // Create a Server
 var server = app.listen(8080, function () {

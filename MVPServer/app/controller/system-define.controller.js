@@ -102,6 +102,100 @@ exports.delete = (req, res) => {
     });
 };
 
+
+exports.get_independent_ishow_define = (req, res) => {
+    var query_stmt = "select * from DB_SYSTEM.VW_ISHOW_DEFINE where  sameAs is null";
+    db.query(query_stmt, {
+        type: db.QueryTypes.SELECT
+    })
+        .then(real_data => {
+            res.send(real_data);
+        })
+};
+
+
+exports.get_dependent_ishow_define = (req, res) => {
+    var query_stmt = "select * from DB_SYSTEM.VW_ISHOW_DEFINE where  sameAs is not null";
+    db.query(query_stmt, {
+        type: db.QueryTypes.SELECT
+    })
+        .then(real_data => {
+            res.send(real_data);
+        })
+};
+
+
+exports.get_ishow_define = (req, res) => {
+    var query_stmt = "select * from DB_SYSTEM.VW_ISHOW_DEFINE";
+    db.query(query_stmt, {
+        type: db.QueryTypes.SELECT
+    })
+        .then(real_data => {
+            res.send(real_data);
+        })
+};
+
+exports.get_independent_wshow_define = (req, res) => {
+    var query_stmt = "select * from DB_SYSTEM.VW_WSHOW_DEFINE where  sameAs is null";
+    db.query(query_stmt, {
+        type: db.QueryTypes.SELECT
+    })
+        .then(real_data => {
+            res.send(real_data);
+        })
+};
+
+
+exports.get_dependent_wshow_define = (req, res) => {
+    var query_stmt = "select * from DB_SYSTEM.VW_WSHOW_DEFINE where  sameAs is not null";
+    db.query(query_stmt, {
+        type: db.QueryTypes.SELECT
+    })
+        .then(real_data => {
+            res.send(real_data);
+        })
+};
+
+exports.get_wshow_define = (req, res) => {
+    var query_stmt = "select * from DB_SYSTEM.VW_WSHOW_DEFINE";
+    db.query(query_stmt, {
+        type: db.QueryTypes.SELECT
+    })
+        .then(real_data => {
+            res.send(real_data);
+        })
+};
+
+
+exports.get_alarm_realtime = (req, res) => {
+    const startTime = req.query.start_time;
+    const limitCount = req.query.limit;
+    var query_stmt = "SELECT * FROM VW_ALARM_REALTIME";
+    if (startTime)
+        query_stmt += " where timeTag > $start_time ";
+
+    query_stmt += "order by timeTag desc";
+
+    if (limitCount)
+        query_stmt += " limit $limit_count";
+
+    db.query(query_stmt, {
+        //model: RealTime,
+        //mapToModel: false // 如果有任何映射字段，则在这里传递true
+        bind: {
+            start_time: startTime,
+            limit_count: limitCount
+        },
+        type: db.QueryTypes.SELECT
+    })
+        .then(real_data => {
+            res.send(real_data);
+            // Each record will now be an instance of Project
+        })
+};
+
+
+
 /*
 module.exports = function (sequelize, DataTypes) {
     return sequelize.define('TAB_SYSTEM_DEFINE', {
