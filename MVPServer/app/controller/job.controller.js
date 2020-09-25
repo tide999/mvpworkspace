@@ -62,6 +62,27 @@ exports.add_job = (req, res) => {
         });
 };
 
+exports.add_job_get = (req, res) => {
+    const jobName = req.query.jobName;
+    const jobMode = req.query.jobMode;
+    const jobDeep = req.query.jobDeep;
+    const dropTimes = req.query.dropTimes;
+    const intervalTimes = req.query.intervalTime;
+    const safeDeep = req.body.safeDeep;
+
+    var execStmt = "CALL sp_addJob(:jobName, :jobMode, :jobDeep, :dropTimes, :intervalTimes, :safeDeep)";
+
+    db.query(execStmt, { replacements: { jobName: jobName, jobMode: jobMode, jobDeep: jobDeep, dropTimes: dropTimes, intervalTimes: intervalTimes, safeDeep: safeDeep } })
+        .then(data => {
+            res.send(data);
+            console.log("add job successfully!")
+        }
+        )
+        .catch(error => {
+            res.json({ error: error });
+        });
+};
+
 
 exports.get_real_data = (req, res) => {
     const startTime = req.query.start_time;

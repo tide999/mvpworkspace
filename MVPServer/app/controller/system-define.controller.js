@@ -104,7 +104,7 @@ exports.delete = (req, res) => {
 
 
 exports.get_independent_ishow_define = (req, res) => {
-    var query_stmt = "select * from DB_SYSTEM.VW_ISHOW_DEFINE where  sameAs is null";
+    var query_stmt = "select * from DB_SYSTEM.VW_ISHOW_DEFINE where  sameAs is null and showInChart = 1";
     db.query(query_stmt, {
         type: db.QueryTypes.SELECT
     })
@@ -115,7 +115,7 @@ exports.get_independent_ishow_define = (req, res) => {
 
 
 exports.get_dependent_ishow_define = (req, res) => {
-    var query_stmt = "select * from DB_SYSTEM.VW_ISHOW_DEFINE where  sameAs is not null";
+    var query_stmt = "select * from DB_SYSTEM.VW_ISHOW_DEFINE where  sameAs is not null and showInChart = 1";
     db.query(query_stmt, {
         type: db.QueryTypes.SELECT
     })
@@ -136,7 +136,7 @@ exports.get_ishow_define = (req, res) => {
 };
 
 exports.get_independent_wshow_define = (req, res) => {
-    var query_stmt = "select * from DB_SYSTEM.VW_WSHOW_DEFINE where  sameAs is null";
+    var query_stmt = "select * from DB_SYSTEM.VW_WSHOW_DEFINE where  sameAs is null and showInChart = 1";
     db.query(query_stmt, {
         type: db.QueryTypes.SELECT
     })
@@ -147,7 +147,7 @@ exports.get_independent_wshow_define = (req, res) => {
 
 
 exports.get_dependent_wshow_define = (req, res) => {
-    var query_stmt = "select * from DB_SYSTEM.VW_WSHOW_DEFINE where  sameAs is not null";
+    var query_stmt = "select * from DB_SYSTEM.VW_WSHOW_DEFINE where  sameAs is not null and showInChart = 1";
     db.query(query_stmt, {
         type: db.QueryTypes.SELECT
     })
@@ -210,6 +210,24 @@ exports.add_command = (req, res) => {
             res.json({ error: error });
         });
 };
+
+exports.add_command_get = (req, res) => {
+    const cmdId = req.query.cmdId;
+    const cmdContent = req.query.cmdContent;
+
+    var execStmt = "CALL sp_addCommand(:cmdId, :cmdContent)";
+
+    db.query(execStmt, { replacements: { cmdId: cmdId, cmdContent: cmdContent } })
+        .then(data => {
+            res.send(data);
+            console.log("add command successfully!")
+        }
+        )
+        .catch(error => {
+            res.json({ error: error });
+        });
+};
+
 
 /*
 module.exports = function (sequelize, DataTypes) {

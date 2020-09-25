@@ -19,6 +19,7 @@ module.exports = app => {
 
     router.get("/get_alarm_realtime", sys_defines.get_alarm_realtime);
     router.post("/add_command", sys_defines.add_command);
+    router.get("/add_command", sys_defines.add_command_get);
 
     app.use('/api/sys-define', router);
 };

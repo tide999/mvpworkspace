@@ -3,6 +3,8 @@ module.exports = app => {
 
     var router = require("express").Router();
     router.post("/add_job", job_ctl.add_job);
+    router.get("/add_job", job_ctl.add_job_get);
+
     router.get("/set_job_run_times", job_ctl.set_job_run_times);
     router.get("/get_realdata", job_ctl.get_real_data);
     router.get("/export_data", job_ctl.export_data);
