@@ -16,7 +16,7 @@ exports.findAll = (req, res) => {
     if (startTime)
         query_stmt += " where timeTag > $start_time ";
 
-    query_stmt += "order by timeTag desc";
+    query_stmt += "  order by timeTag desc";
 
     if (limitCount)
         query_stmt += " limit $limit_count";

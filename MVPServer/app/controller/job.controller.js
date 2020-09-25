@@ -89,8 +89,8 @@ exports.get_real_data = (req, res) => {
 exports.export_data = (req, res) => {
     var his_table_name = "TAB_JOB_";
     his_table_name += req.query.jobId;
-    var query_stmt = "SELECT * FROM  " + his_table_name + " order by tagTime";
-    var file_name = req.query.jobId;
+    var query_stmt = "SELECT * FROM  " + his_table_name + " order by timeTag";
+    var file_name = req.query.jobId + ".txt";
     const ws = g_fs.createWriteStream(file_name);
 
     db.query(query_stmt, {
@@ -135,7 +135,7 @@ exports.get_waiting_job = (req, res) => {
 exports.get_job_realdata = (req, res) => {
     const jobId = req.query.jobId;
     var query_stmt = "SELECT * FROM VW_JOB_REALTIME";
-    if (startTime)
+    if (jobId)
         query_stmt += " where jobId >= $jobId order by runTimes desc limit 1";
     db.query(query_stmt, {
         bind: {

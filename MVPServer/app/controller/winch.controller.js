@@ -57,7 +57,7 @@ exports.get_real_data = (req, res) => {
     var query_stmt = "SELECT * FROM VW_WINCH_REALTIME";
     if (startTime)
         query_stmt += " where timeTag > $start_time";
-    query_stmt += "order by timeTag desc";
+    query_stmt += " order by timeTag desc";
     if (limitCount)
         query_stmt += " limit $limit_count"
     db.query(query_stmt, {

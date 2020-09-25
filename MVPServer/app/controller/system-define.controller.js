@@ -174,7 +174,7 @@ exports.get_alarm_realtime = (req, res) => {
     if (startTime)
         query_stmt += " where timeTag > $start_time ";
 
-    query_stmt += "order by timeTag desc";
+    query_stmt += "  order by timeTag desc";
 
     if (limitCount)
         query_stmt += " limit $limit_count";
@@ -194,7 +194,22 @@ exports.get_alarm_realtime = (req, res) => {
         })
 };
 
+exports.add_command = (req, res) => {
+    const cmdId = req.body.cmdId;
+    const cmdContent = req.body.cmdContent;
 
+    var execStmt = "CALL sp_addCommand(:cmdId, :cmdContent)";
+
+    db.query(execStmt, { replacements: { cmdId: cmdId, cmdContent: cmdContent} })
+        .then(data => {
+            res.send(data);
+            console.log("add command successfully!")
+        }
+        )
+        .catch(error => {
+            res.json({ error: error });
+        });
+};
 
 /*
 module.exports = function (sequelize, DataTypes) {
