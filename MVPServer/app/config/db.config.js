@@ -1,31 +1,50 @@
-const env = require('./env.js');
+//var fs = require('fs');
+var configJson;
+console.log(process.cwd());
+
+try {
+    //configJson = JSON.parse(fs.readFileSync(
+    //    process.cwd() + '/config.json',
+    //    'utf-8'));
+    configJson = require(process.cwd() + '/config.js');
+} catch (e) {
+    console.log(e);
+    configJson = null;
+}
+
+if (configJson)
+    console.log("read config file successfully");
+
+const env = configJson ? configJson : require('./env.js');
 
 const Sequelize = require('sequelize');
+const { config } = require('process');
 const sequelizeSysDB = new Sequelize(env.sysDB.database, env.sysDB.params.username, env.sysDB.params.password, {
     host: env.sysDB.params.host,
     dialect: env.sysDB.params.dialect,
-    operatorsAliases: false,
-    pool: env.sysDB.params.pool
+ //   operatorsAliases: false,
+    pool: env.sysDB.params.pool,
+    dialectoptions: env.sysDB.params.dialectoptions
 });
 
 const sequelizeJobDB = new Sequelize(env.jobDB.database, env.jobDB.params.username, env.jobDB.params.password, {
     host: env.jobDB.params.host,
     dialect: env.jobDB.params.dialect,
-    operatorsAliases: false,
+   // operatorsAliases: false,
     pool: env.jobDB.params.pool
 });
 
 const sequelizeWinchDB = new Sequelize(env.winchDB.database, env.winchDB.params.username, env.winchDB.params.password, {
     host: env.winchDB.params.host,
     dialect: env.winchDB.params.dialect,
-    operatorsAliases: false,
+//    operatorsAliases: false,
     pool: env.winchDB.params.pool
 });
 
 const sequelizeDatasetDB = new Sequelize(env.datasetDB.database, env.datasetDB.params.username, env.datasetDB.params.password, {
     host: env.sysDB.params.host,
     dialect: env.sysDB.params.dialect,
-    operatorsAliases: false,
+   // operatorsAliases: false,
     pool: env.sysDB.params.pool
 });
 

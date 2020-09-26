@@ -133,7 +133,7 @@ exports.export_data = (req, res) => {
 
 
 exports.get_running_job = (req, res) => {
-    var query_stmt = "SELECT * FROM VW_JOB_REALTIME where jobStatus = 48 order by issuedTime, runTimes desc";
+    var query_stmt = "SELECT * FROM VW_JOB_REALTIME where jobStatus = 48 or jobStatus=51 order by issuedTime, runTimes desc limit 1";
     db.query(query_stmt, {
         type: db.QueryTypes.SELECT
     })
@@ -143,7 +143,7 @@ exports.get_running_job = (req, res) => {
 };
 
 exports.get_waiting_job = (req, res) => {
-    var query_stmt = "SELECT * FROM VW_JOB_REALTIME where jobStatus = 3 order by issuedTime desc";
+    var query_stmt = "SELECT * FROM VW_JOB_REALTIME where jobStatus = 3 order by issuedTime desc ";
     db.query(query_stmt, {
         type: db.QueryTypes.SELECT
     })
