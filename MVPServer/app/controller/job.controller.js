@@ -46,12 +46,12 @@ exports.add_job = (req, res) => {
     const jobMode = req.body.jobMode;
     const jobDeep = req.body.jobDeep;
     const dropTimes = req.body.dropTimes;
-    const intervalTimes = req.body.intervalTime;
+    const intervalTime = req.body.intervalTime;
     const safeDeep = req.body.safeDeep;
 
     var execStmt = "CALL sp_addJob(:jobName, :jobMode, :jobDeep, :dropTimes, :intervalTimes, :safeDeep)";
 
-    db.query(execStmt, { replacements: { jobName: jobName, jobMode: jobMode, jobDeep: jobDeep, dropTimes: dropTimes, intervalTimes: intervalTimes, safeDeep: safeDeep } })
+    db.query(execStmt, { replacements: { jobName: jobName, jobMode: jobMode, jobDeep: jobDeep, dropTimes: dropTimes, intervalTime: intervalTime, safeDeep: safeDeep } })
         .then(data => {
             res.send(data);
             console.log("add job successfully!")
@@ -67,19 +67,34 @@ exports.add_job_get = (req, res) => {
     const jobMode = req.query.jobMode;
     const jobDeep = req.query.jobDeep;
     const dropTimes = req.query.dropTimes;
-    const intervalTimes = req.query.intervalTime;
-    const safeDeep = req.body.safeDeep;
+    const intervalTime = req.query.intervalTime;
+    const safeDeep = req.query.safeDeep;
+    const operateMode = req.query.operateMode;
+    const operateSpeed = req.query.operateSpeed;
 
-    var execStmt = "CALL sp_addJob(:jobName, :jobMode, :jobDeep, :dropTimes, :intervalTimes, :safeDeep)";
+    var execStmt = "CALL sp_addJob(:jobName, :jobMode, :jobDeep, :dropTimes, :intervalTime, :safeDeep, :operateMode, :operateSpeed)";
 
-    db.query(execStmt, { replacements: { jobName: jobName, jobMode: jobMode, jobDeep: jobDeep, dropTimes: dropTimes, intervalTimes: intervalTimes, safeDeep: safeDeep } })
+    db.query(execStmt, {
+        replacements: {
+            jobName: jobName,
+            jobMode: jobMode,
+            jobDeep: jobDeep,
+            dropTimes: dropTimes,
+            intervalTime: intervalTime,
+            safeDeep: safeDeep,
+            operateMode: operateMode,
+            operateSpeed: operateSpeed
+        }
+    })
         .then(data => {
             res.send(data);
-            console.log("add job successfully!")
+            console.log("add job successfully!");
+            console.log(data);
         }
         )
         .catch(error => {
             res.json({ error: error });
+            console.log(error);
         });
 };
 
@@ -161,6 +176,19 @@ exports.get_job_realdata = (req, res) => {
     db.query(query_stmt, {
         bind: {
             jobId: jobId
+        },
+        type: db.QueryTypes.SELECT
+    })
+        .then(real_data => {
+            res.send(real_data);
+        })
+};
+
+exports.get_current_job = (req, res) => {
+    const jobId = req.query.jobId;
+    var query_stmt = "SELECT * FROM VW_JOB_REALTIME where jobStatus <> 768 and jobStatus <> 12288 order by jobId, runTimes desc limit 1";
+    db.query(query_stmt, {
+        bind: {          
         },
         type: db.QueryTypes.SELECT
     })

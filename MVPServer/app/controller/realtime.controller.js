@@ -13,7 +13,7 @@ exports.findAll = (req, res) => {
     const startTime = req.query.start_time;
     const limitCount = req.query.limit;
     var query_stmt = "SELECT * FROM VW_DATA_REALTIME";
-    if (startTime)
+    if (startTime)0.
         query_stmt += " where timeTag > $start_time ";
 
     query_stmt += "  order by timeTag desc";
