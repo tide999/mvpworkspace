@@ -1,7 +1,5 @@
 const fastcsv = require("fast-csv");
-const fs = require("fs");
-const export_file = "job-realtime-data.csv";
-const ws = fs.createWriteStream(export_file);
+const g_fs = require("fs");
 
 const db = require('../config/db.config.js').jobdb;
 
@@ -53,7 +51,7 @@ exports.add_job = (req, res) => {
 
     var execStmt = "CALL sp_addJob(:jobName, :jobMode, :jobDeep, :dropTimes, :intervalTimes, :safeDeep)";
 
-    db.query(execStmt, { replacements: { jobName: jobName, jobMode: jobMode, jobDeep: jobDeep, dropTimes: dropTimes, intervalTimes: intervalTimes, safeDeep: safeDeep } })
+    db.query(execStmt, { replacements: { jobName: jobName, jobMode: jobMode, jobDeep: jobDeep, dropTimes: dropTimes, intervalTime: intervalTime, safeDeep: safeDeep } })
         .then(data => {
             res.send(data);
             console.log("add job successfully!")
@@ -61,6 +59,42 @@ exports.add_job = (req, res) => {
         )
         .catch(error => {
             res.json({ error: error });
+        });
+};
+
+exports.add_job_get = (req, res) => {
+    const jobName = req.query.jobName;
+    const jobMode = req.query.jobMode;
+    const jobDeep = req.query.jobDeep;
+    const dropTimes = req.query.dropTimes;
+    const intervalTime = req.query.intervalTime;
+    const safeDeep = req.query.safeDeep;
+    const operateMode = req.query.operateMode;
+    const operateSpeed = req.query.operateSpeed;
+
+    var execStmt = "CALL sp_addJob(:jobName, :jobMode, :jobDeep, :dropTimes, :intervalTime, :safeDeep, :operateMode, :operateSpeed)";
+
+    db.query(execStmt, {
+        replacements: {
+            jobName: jobName,
+            jobMode: jobMode,
+            jobDeep: jobDeep,
+            dropTimes: dropTimes,
+            intervalTime: intervalTime,
+            safeDeep: safeDeep,
+            operateMode: operateMode,
+            operateSpeed: operateSpeed
+        }
+    })
+        .then(data => {
+            res.send(data);
+            console.log("add job successfully!");
+            console.log(data);
+        }
+        )
+        .catch(error => {
+            res.json({ error: error });
+            console.log(error);
         });
 };
 
@@ -88,9 +122,13 @@ exports.get_real_data = (req, res) => {
         })
 };
 
-exports.export_realtime_data = (req, res) => {
+exports.export_data = (req, res) => {
+    var his_table_name = "TAB_JOB_";
+    his_table_name += req.query.jobId;
+    var query_stmt = "SELECT * FROM  " + his_table_name + " order by timeTag";
+    var file_name = req.query.jobId + ".txt";
+    const ws = g_fs.createWriteStream(file_name);
 
-    var query_stmt = "SELECT * FROM VW_JOB_REALTIME";
     db.query(query_stmt, {
         type: db.QueryTypes.SELECT
     })
@@ -102,12 +140,62 @@ exports.export_realtime_data = (req, res) => {
                 .write(jsonData, { headers: true })
                 .on("finish", function () {
                     console.log("Write to csv successfully!");
-                    res.json({ fileName: export_file });
+                    res.json({ fileName: file_name });
                 })
                 .pipe(ws);
         })
 };
 
+
+exports.get_running_job = (req, res) => {
+    var query_stmt = "SELECT * FROM VW_JOB_REALTIME where jobStatus = 48 or jobStatus=51 order by issuedTime, runTimes desc limit 1";
+    db.query(query_stmt, {
+        type: db.QueryTypes.SELECT
+    })
+        .then(real_data => {
+            res.send(real_data);
+        })
+};
+
+exports.get_waiting_job = (req, res) => {
+    var query_stmt = "SELECT * FROM VW_JOB_REALTIME where jobStatus = 3 order by issuedTime desc ";
+    db.query(query_stmt, {
+        type: db.QueryTypes.SELECT
+    })
+        .then(real_data => {
+            res.send(real_data);
+        })
+};
+
+
+exports.get_job_realdata = (req, res) => {
+    const jobId = req.query.jobId;
+    var query_stmt = "SELECT * FROM VW_JOB_REALTIME";
+    if (jobId)
+        query_stmt += " where jobId >= $jobId order by runTimes desc limit 1";
+    db.query(query_stmt, {
+        bind: {
+            jobId: jobId
+        },
+        type: db.QueryTypes.SELECT
+    })
+        .then(real_data => {
+            res.send(real_data);
+        })
+};
+
+exports.get_current_job = (req, res) => {
+    const jobId = req.query.jobId;
+    var query_stmt = "SELECT * FROM VW_JOB_REALTIME where jobStatus <> 768 and jobStatus <> 12288 order by jobId, runTimes desc limit 1";
+    db.query(query_stmt, {
+        bind: {          
+        },
+        type: db.QueryTypes.SELECT
+    })
+        .then(real_data => {
+            res.send(real_data);
+        })
+};
 
 
 /*

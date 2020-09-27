@@ -56,7 +56,8 @@ exports.get_real_data = (req, res) => {
     const limitCount = req.query.limit;
     var query_stmt = "SELECT * FROM VW_WINCH_REALTIME";
     if (startTime)
-        query_stmt += " where timeTag >= $start_time";
+        query_stmt += " where timeTag > $start_time";
+    query_stmt += " order by timeTag desc";
     if (limitCount)
         query_stmt += " limit $limit_count"
     db.query(query_stmt, {

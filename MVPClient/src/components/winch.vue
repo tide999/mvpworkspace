@@ -6,58 +6,143 @@
             <span class="close-btn" @click="closeItem('winch')"><i class="el-icon-circle-close"></i></span>
         </p>
         <div v-show="pageSize == true">
-            <el-form ref="form" :model="sizeForm" label-width="60px" size="mini" class="winch-from-content" :label-position="labelPosition">
-                <el-form-item label="放缆长度(米)">
-                    <el-input disabled v-model="sizeForm.ropeLengthMet" style="width:120px;min-width:90px"></el-input>
-                </el-form-item>
-                <el-form-item label="收放揽速度(米/秒)">
-                    <el-input disabled v-model="sizeForm.pullRopeSpeed" style="width:120px;min-width:90px"></el-input>
-                </el-form-item>
-                <el-form-item>
-                    <el-checkbox-group disabled v-model="sizeForm.type">
-                        <el-checkbox :label="0" name="type">收揽</el-checkbox>
-                        <el-checkbox :label="1" name="type">放缆</el-checkbox>
-                        <el-checkbox :label="2" name="type">自由轮</el-checkbox>
-                        <el-checkbox :label="3" name="type">刹车</el-checkbox>
-                        <el-checkbox :label="4" name="type">自由投放就位</el-checkbox>
-                        <el-checkbox :label="5" name="type">自由工作状态</el-checkbox>
-                        <el-checkbox :label="6" name="type">上机位控制</el-checkbox>
-                        <el-checkbox :label="7" name="type">揽绳保护</el-checkbox>
-                        <el-checkbox :label="8" name="type">报警</el-checkbox>
-                    </el-checkbox-group>
-                </el-form-item>
-                <el-form-item label="报警信息显示">
-                    <el-input disabled type="textarea" v-model="sizeForm.alertMsg" style="width:98%;fon-size:12px" rows="8" resize="none"></el-input>
-                </el-form-item>
-            </el-form>
+            <div class="input-area-1">
+                <el-form ref="form" :model="sizeForm" label-width="60px" size="mini" class="winch-from-content" :label-position="labelPosition">
+                    <el-form-item label="放缆长度(米)">
+                        <el-input disabled v-model="sizeForm.ropeLengthMet"></el-input>
+                    </el-form-item>
+                    <el-form-item label="收放缆速度(米/秒)">
+                        <el-input disabled v-model="sizeForm.pullRopeSpeed"></el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-checkbox-group disabled v-model="sizeForm.type">
+                            <el-checkbox :label="0" name="type">收缆</el-checkbox>
+                            <el-checkbox :label="1" name="type">放缆</el-checkbox>
+                            <el-checkbox :label="2" name="type">自由轮</el-checkbox>
+                            <el-checkbox :label="3" name="type">刹车</el-checkbox>
+                            <el-checkbox :label="4" name="type">自由投放就位</el-checkbox>
+                            <el-checkbox :label="5" name="type">自由工作状态</el-checkbox>
+                            <el-checkbox :label="6" name="type">上机位控制</el-checkbox>
+                            <el-checkbox :label="7" name="type">缆绳保护</el-checkbox>
+                            <el-checkbox :label="8" name="type">报警</el-checkbox>
+                        </el-checkbox-group>
+                    </el-form-item>
+                    <el-form-item label="收放缆速度(米/分钟)">
+                        <el-input disabled v-model="sizeForm.collectSpeed"></el-input>
+                    </el-form-item>
+                    <el-form-item label="收缆压力(bar)">
+                        <el-input disabled v-model="sizeForm.ropeBar"></el-input>
+                    </el-form-item>
+                    <el-form-item label="油箱温度(度)">
+                        <el-input disabled v-model="sizeForm.fuelTmp"></el-input>
+                    </el-form-item>
+                    <el-form-item label="手柄输入">
+                        <el-input disabled v-model="sizeForm.handleImport"></el-input>
+                    </el-form-item>
+                    <el-form-item label="比例阀输出">
+                        <el-input disabled v-model="sizeForm.proportionalExport"></el-input>
+                    </el-form-item>
+                    <el-form-item label="刹车压力(bar)">
+                        <el-input disabled v-model="sizeForm.brakeBar"></el-input>
+                    </el-form-item>
+                </el-form>
+            </div>
+
         </div>
-        <div v-show="pageSize == false">
-            <el-form ref="form" class="form-1" :model="sizeForm" size="mini" inline>
-                <el-form-item label="放缆长度(米)">
-                    <el-input disabled v-model="sizeForm.ropeLengthMet" style="width:120px;min-width:90px"></el-input>
-                </el-form-item>
-                <el-form-item label="收放揽速度(米/秒)">
-                    <el-input disabled v-model="sizeForm.pullRopeSpeed" style="width:120px;min-width:90px"></el-input>
-                </el-form-item>
-                <el-form-item>
-                    <el-checkbox-group  v-model="sizeForm.type" class="bigScreenCheckbox">
-                        <el-checkbox :label="0" name="type" disabled>收揽</el-checkbox>
-                        <el-checkbox :label="1" name="type">放缆</el-checkbox>
-                        <el-checkbox :label="2" name="type">自由轮</el-checkbox>
-                        <el-checkbox :label="3" name="type">刹车</el-checkbox>
-                        <el-checkbox :label="4" name="type">自由投放就位</el-checkbox>
-                        <el-checkbox :label="5" name="type">自由工作状态</el-checkbox>
-                        <el-checkbox :label="6" name="type">上机位控制</el-checkbox>
-                        <el-checkbox :label="7" name="type">揽绳保护</el-checkbox>
-                        <el-checkbox :label="8" name="type">报警</el-checkbox>
-                    </el-checkbox-group>
-                </el-form-item>
-            </el-form>
-            <div id="myChart1" :style="{ width: '100%', height: '450px' }"></div>
-            <div class="bigScreenTextarea">
+        <div v-show="pageSize == false" style="height:100%;overflow:hidden">
+            <div class="bigScreen">
+                <div class="leftScreen">
+                    <div id="myChart1" :style="{ width: '100%', height: '60%' }"></div>
+                    <div class="checkbox-content">
+                        <el-checkbox-group v-model="checkList">
+                            <el-checkbox :label="0" name="type">收缆</el-checkbox>
+                            <el-checkbox :label="1" name="type">放缆</el-checkbox>
+                            <el-checkbox :label="2" name="type">自由轮</el-checkbox>
+                            <el-checkbox :label="3" name="type">刹车</el-checkbox>
+                            <el-checkbox :label="4" name="type">自由投放就位</el-checkbox>
+                            <el-checkbox :label="5" name="type">自由工作状态</el-checkbox>
+                            <el-checkbox :label="6" name="type">上机位控制</el-checkbox>
+                            <el-checkbox :label="7" name="type">缆绳保护</el-checkbox>
+                            <el-checkbox :label="8" name="type">报警</el-checkbox>
+                        </el-checkbox-group>
+
+                        <el-checkbox-group v-model="checkList1">
+                            <el-checkbox :label="0" name="type">编码器A</el-checkbox>
+                            <el-checkbox :label="1" name="type">编码器B</el-checkbox>
+                            <el-checkbox :label="2" name="type">紧停</el-checkbox>
+                            <el-checkbox :label="3" name="type">启动按钮</el-checkbox>
+                            <el-checkbox :label="4" name="type">停止按钮</el-checkbox>
+                            <el-checkbox :label="5" name="type">KM1</el-checkbox>
+                            <el-checkbox :label="6" name="type">KM2</el-checkbox>
+                            <!-- <el-popover placement="right" width="400" trigger="click"> -->
+                            <!-- <el-checkbox-group v-model="checkList1"> -->
+                            <el-checkbox :label="7" name="type">KM3</el-checkbox>
+                            <el-checkbox :label="8" name="type">KR</el-checkbox>
+                            <el-checkbox :label="6" name="type">左排缆限位</el-checkbox>
+                            <el-checkbox :label="7" name="type">右排缆限位</el-checkbox>
+                            <el-checkbox :label="8" name="type">手柄前向</el-checkbox>
+                            <!-- </el-checkbox-group> -->
+                            <!-- <el-button size='mini' slot="reference">更多 ></el-button> -->
+                            </el-popover>
+
+                        </el-checkbox-group>
+
+                        <el-checkbox-group v-model="checkList2">
+                            <el-checkbox :label="0" name="type">蜂鸣器</el-checkbox>
+                            <el-checkbox :label="1" name="type">报警灯</el-checkbox>
+                            <el-checkbox :label="2" name="type">启动灯</el-checkbox>
+                            <el-checkbox :label="3" name="type">停止灯</el-checkbox>
+                            <el-checkbox :label="4" name="type">左排缆灯</el-checkbox>
+                            <el-checkbox :label="5" name="type">右排缆灯</el-checkbox>
+                        </el-checkbox-group>
+                    </div>
+                </div>
+                <div class="input-area">
+                    <el-form ref="form" :model="sizeForm" label-width="60px" size="mini" class="winch-from-content" :label-position="labelPosition">
+                        <el-form-item label="放缆长度(米)">
+                            <el-input disabled v-model="sizeForm.ropeLengthMet" style="width:120px;min-width:90px"></el-input>
+                        </el-form-item>
+                        <el-form-item label="收放缆速度(米/秒)">
+                            <el-input disabled v-model="sizeForm.pullRopeSpeed" style="width:120px;min-width:90px"></el-input>
+                        </el-form-item>
+                        <!-- <el-form-item>
+                            <el-checkbox-group disabled v-model="sizeForm.type">
+                                <el-checkbox :label="0" name="type">收缆</el-checkbox>
+                                <el-checkbox :label="1" name="type">放缆</el-checkbox>
+                                <el-checkbox :label="2" name="type">自由轮</el-checkbox>
+                                <el-checkbox :label="3" name="type">刹车</el-checkbox>
+                                <el-checkbox :label="4" name="type">自由投放就位</el-checkbox>
+                                <el-checkbox :label="5" name="type">自由工作状态</el-checkbox>
+                                <el-checkbox :label="6" name="type">上机位控制</el-checkbox>
+                                <el-checkbox :label="7" name="type">缆绳保护</el-checkbox>
+                                <el-checkbox :label="8" name="type">报警</el-checkbox>
+                            </el-checkbox-group>
+                        </el-form-item> -->
+                        <el-form-item label="收放缆速度(米/分钟)">
+                            <el-input disabled v-model="sizeForm.collectSpeed" style="width:120px;min-width:90px"></el-input>
+                        </el-form-item>
+                        <el-form-item label="收缆压力(bar)">
+                            <el-input disabled v-model="sizeForm.ropeBar" style="width:120px;min-width:90px"></el-input>
+                        </el-form-item>
+                        <el-form-item label="油箱温度(度)">
+                            <el-input disabled v-model="sizeForm.fuelTmp" style="width:120px;min-width:90px"></el-input>
+                        </el-form-item>
+                        <el-form-item label="手柄输入">
+                            <el-input disabled v-model="sizeForm.handleImport" style="width:120px;min-width:90px"></el-input>
+                        </el-form-item>
+                        <el-form-item label="比例阀输出">
+                            <el-input disabled v-model="sizeForm.proportionalExport" style="width:120px;min-width:90px"></el-input>
+                        </el-form-item>
+                        <el-form-item label="刹车压力(bar)">
+                            <el-input disabled v-model="sizeForm.brakeBar" style="width:120px;min-width:90px"></el-input>
+                        </el-form-item>
+                    </el-form>
+                </div>
+            </div>
+            <!-- <div class="bigScreenTextarea">
                 <p>报警信息提示：</p>
                 <el-input disabled type="textarea" v-model="sizeForm.alertMsg" style="width:98%;fon-size:12px" rows="3" resize="none"></el-input>
-            </div>
+            </div> -->
         </div>
     </div>
 </template>
@@ -67,16 +152,25 @@ export default {
     name: 'winch',
     data() {
         return {
-            thisTimes:'',
-            limit:1,
+            checkList: [3, 5, 6],
+            checkList1: [6],
+            checkList2: [3],
+            userlevel: 0,
+            thisTimes: '',
+            limit: 1,
             form: { name: "" },
             iconName: 'el-icon-right',
             labelPosition: 'top',
             sizeForm: {
-                ropeLengthMet: '78.9864',
-                pullRopeSpeed: '-300',
+                ropeLengthMet: '',
+                pullRopeSpeed: '',
                 type: [1, 4],
-                alertMsg: '还是不得不说echarts结构设计中的低耦合考虑得很好，通过一个fomatter方法，用户可以自定义显示内容,面的实现我的方法是在option中的series填了对label的处理，具体代码如下',
+                collectSpeed: '',
+                ropeBar: '',
+                fuelTmp: '',
+                handleImport: '',
+                proportionalExport: '',
+                brakeBar: '',
             },
             myChart1: "",
             option: {
@@ -90,21 +184,28 @@ export default {
                     data: ['深度(米)', '当前海深(米)', '温度(℃)', '导电率(S/m)', '压力(bar)', '盐度(psu)', '声速(m/s)', 'PH()', '浊度(ug/l)', '叶绿素(ug/l)']
                 },
                 grid: {
-                    left: '3%',
-                    right: '4%',
+                    left: '5%',
+                    right: '2%',
                     bottom: '5%',
                     containLabel: false
                 },
-                dataZoom: [{
-                    type: 'inside',
-                }],
+                dataZoom: [
+                    {
+                        type: 'inside',
+                        start: 70,
+                        end: 100
+                    },
+                ],
                 xAxis: {
                     type: 'category',
                     boundaryGap: false,
                     data: [0, 20, 40, 60, 80, 100],
-                    axisLine: { show: false },
+                    axisLine: { show: true },
                     axisTick: { show: false },
                     splitLine: { show: true },
+                    axisLabel: {
+                        show: true
+                    }
                 },
                 yAxis: [{
                     // name: '深度',
@@ -313,7 +414,7 @@ export default {
     },
     watch: {
         pageSize(newVal, oldVal) {
-            console.log('winch' + newVal);
+            // console.log('winch' + newVal);
             if (newVal == true) {
                 this.iconName = 'el-icon-right'
             } else {
@@ -325,6 +426,8 @@ export default {
         pageSize: Boolean,
     },
     mounted() {
+        document.getElementsByClassName('input-area')[0].style.height = (document.getElementById('winch').clientHeight - 50) + 'px';
+        document.getElementsByClassName('input-area-1')[0].style.height = (document.getElementById('winch').clientHeight - 50) + 'px';
         this.drawLine();
         let _this = this;
         window.onresize = function () {
@@ -351,19 +454,23 @@ export default {
         getDataSec() {
             let _this = this
             setInterval(() => {
-                _this.option.xAxis.data.push(Number(_this.option.xAxis.data[_this.option.xAxis.data.length - 1]) + 20)
-                _this.option.series[0].data.push(Number(_this.option.series[0].data[_this.option.series[0].data.length - 1] + 40)) // 深度
-                _this.option.series[1].data.push(Number(_this.option.series[1].data[_this.option.series[1].data.length - 1] + 2)) // 当前海深
-                _this.option.series[2].data.push(Number(_this.option.series[2].data[_this.option.series[2].data.length - 1])) // 温度
-                _this.option.series[3].data.push(Number(_this.option.series[3].data[_this.option.series[3].data.length - 1] + 1)) // 导电率
-                _this.option.series[4].data.push(Number(_this.option.series[4].data[_this.option.series[4].data.length - 1] + Math.floor(Math.random() * 10))) // 压力
-                _this.option.series[5].data.push(Number(_this.option.series[5].data[_this.option.series[5].data.length - 1] + Math.floor(Math.random()))) // 盐度
-                _this.option.series[6].data.push(Number(_this.option.series[6].data[_this.option.series[6].data.length - 1] + Math.floor(Math.random() * 20))) // 声速
-                _this.option.series[7].data.push(Number(_this.option.series[7].data[_this.option.series[7].data.length - 1] + Math.floor(Math.random() * 3))) // Ph
-                _this.option.series[8].data.push(Number(_this.option.series[8].data[_this.option.series[8].data.length - 1] + Math.floor(Math.random() * 4))) // 浊度
-                _this.option.series[9].data.push(Number(_this.option.series[9].data[_this.option.series[9].data.length - 1])) // 叶绿素
-                _this.myChart1.setOption(_this.option, true);
-            }, 10000)
+                let options = _this.myChart1.getOption();
+                options.xAxis[0].data.push(Number(options.xAxis[0].data[options.xAxis[0].data.length - 1]) + 20)
+                options.series[0].data.push(Number(options.series[0].data[options.series[0].data.length - 1] + 40)) // 深度
+                options.series[1].data.push(Number(options.series[1].data[options.series[1].data.length - 1] + 2)) // 当前海深
+                options.series[2].data.push(Number(options.series[2].data[options.series[2].data.length - 1])) // 温度
+                options.series[3].data.push(Number(options.series[3].data[options.series[3].data.length - 1] + 1)) // 导电率
+                options.series[4].data.push(Number(options.series[4].data[options.series[4].data.length - 1] + Math.floor(Math.random() * 10))) // 压力
+                options.series[5].data.push(Number(options.series[5].data[options.series[5].data.length - 1] + Math.floor(Math.random()))) // 盐度
+                options.series[6].data.push(Number(options.series[6].data[options.series[6].data.length - 1] + Math.floor(Math.random() * 20))) // 声速
+                options.series[7].data.push(Number(options.series[7].data[options.series[7].data.length - 1] + Math.floor(Math.random() * 3))) // Ph
+                options.series[8].data.push(Number(options.series[8].data[options.series[8].data.length - 1] + Math.floor(Math.random() * 4))) // 浊度
+                options.series[9].data.push(Number(options.series[9].data[options.series[9].data.length - 1])) // 叶绿素
+                _this.myChart1.setOption(options, true);
+            }, 2000)
+        },
+        setEchartsxAxis() {
+
         },
         closeItem(ele) {
             this.$emit('sendEleName', ele);
@@ -379,7 +486,7 @@ export default {
                 switch: this.pageSize
             });
         },
-        
+
     }
 }
 </script>
@@ -430,14 +537,58 @@ export default {
     display: inline;
     margin-right: 10px;
 }
-.bigScreenTextarea{
+.bigScreenTextarea {
     padding: 0 20px;
-
 }
-.bigScreenTextarea p{
+.bigScreenTextarea p {
     font-size: 14px;
     color: #303133;
     margin: 10px 0;
     font-weight: 600;
+}
+.bigScreen {
+    height: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 0 20px;
+    overflow: hidden;
+}
+.leftScreen {
+    width: 85%;
+    height: 100%;
+}
+.input-area {
+    width: 15%;
+    height: 100%;
+    border-left: 1px solid #eee;
+    overflow: auto;
+}
+.input-area::-webkit-scrollbar {
+    display: none; /* Chrome Safari */
+}
+.input-area-1 {
+    height: 100%;
+    border-left: 1px solid #eee;
+    overflow: auto;
+    padding: 0 20px;
+}
+.input-area-1::-webkit-scrollbar {
+    display: none; /* Chrome Safari */
+}
+.alert-item {
+    /* width: 15%; */
+    /* overflow: auto; */
+}
+.checkbox-content .el-checkbox-group {
+    margin: 20px 0;
+    padding: 0 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+}
+.checkbox-content .el-checkbox-group .el-checkbox {
+    width: 100px;
 }
 </style>

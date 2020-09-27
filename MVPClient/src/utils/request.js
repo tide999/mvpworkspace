@@ -1,6 +1,6 @@
 import axios from "axios";
 // axios.defaults.withCredentials = true;
-axios.defaults.timeout = 500000;
+// axios.defaults.timeout = 500000;
 if (process.env !== "production") {
     axios.defaults.baseURL = "http://localhost:8080/api/";
 }
@@ -23,3 +23,17 @@ function request(options) {
 }
 
 export default request;
+
+// async getJsonDate(row) {
+// let _this = this;
+//     let result = await request({
+//         url: "/json/index.json",
+//         method: "get"
+//     });
+//     // console.log(result, "result");
+//     try {
+//         console.log(result);
+//     } catch (error) {
+//         console.log(error);
+//     }
+// }
