@@ -4,9 +4,7 @@
   "description": "MVPServer",
   "main": "server.js",
   "bin": "server.js",
-  "Targets": [
-    "node12-win-x64"
-  ],
+  "Targets": [ "node12-win-x64" ],
   "author": {
     "name": ""
   },
