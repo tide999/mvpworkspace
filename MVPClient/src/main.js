@@ -12,6 +12,10 @@ Vue.config.productionTip = false;
 // Vue.prototype.$pageSizeBigOne = true;
 Vue.prototype.$store = store
 Vue.prototype.$echarts = echarts;
+// console.log(localStorage.getItem('ipconfig'))
+// console.log(localStorage.getItem('userLevel'))
+// 0 操作  1 只读
+Vue.prototype.$level = localStorage.getItem('userLevel')
 
 Vue.use(ElementUI);
 Vue.use(animated)
