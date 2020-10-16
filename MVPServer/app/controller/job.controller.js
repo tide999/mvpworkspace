@@ -172,7 +172,7 @@ exports.get_job_realdata = (req, res) => {
     const jobId = req.query.jobId;
     var query_stmt = "SELECT * FROM VW_JOB_REALTIME";
     if (jobId)
-        query_stmt += " where jobId >= $jobId order by runTimes desc limit 1";
+        query_stmt += " where jobId = $jobId order by runTimes desc limit 1";
     db.query(query_stmt, {
         bind: {
             jobId: jobId
@@ -195,6 +195,30 @@ exports.get_current_job = (req, res) => {
         .then(real_data => {
             res.send(real_data);
         })
+};
+
+exports.get_hisdata_by_runtimes = (req, res) => {
+
+    var job_id = req.query.jobId;
+    var run_times = req.query.run_times;
+    
+    var query_stmt = "SELECT * FROM  ";
+    if (job_id)
+        query_stmt += "VW_JOB_" + job_id;
+    else
+        query_stmt += "VW_JOB_REALTIME ";
+    if (run_times)
+        query_stmt += " where runTimes = $runTimes ";
+
+    db.query(query_stmt, {
+        bind: {
+            runTimes: run_times
+        },
+        type: db.QueryTypes.SELECT
+    })
+        .then(real_data => {
+            res.send(real_data);
+        })    
 };
 
 

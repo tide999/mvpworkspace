@@ -13,6 +13,6 @@ module.exports = app => {
     router.get("/get_waiting_job", job_ctl.get_waiting_job);
     router.get("/get_job_realdata", job_ctl.get_job_realdata);
     router.get("/get_current_job", job_ctl.get_current_job);
-
+    router.get("/get_hisdata_by_runtimes", job_ctl.get_hisdata_by_runtimes);
     app.use('/api/job', router);
 };

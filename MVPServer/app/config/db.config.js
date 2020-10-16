@@ -13,10 +13,12 @@ try {
 }
 
 if (configJson)
-    console.log("read config file successfully");
+    console.log("read config.js file successfully");
+else
+    console.log("without config.js file,use env.js as config file");
 
 const env = configJson ? configJson : require('./env.js');
-
+console.log(env.sysDB.params.host);
 const Sequelize = require('sequelize');
 const { config } = require('process');
 const sequelizeSysDB = new Sequelize(env.sysDB.database, env.sysDB.params.username, env.sysDB.params.password, {
