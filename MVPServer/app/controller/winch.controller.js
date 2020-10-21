@@ -1,4 +1,5 @@
 const db = require('../config/db.config.js').winchdb;
+const logger = require('../config/db.config.js').logger;
 
 const fastcsv = require("fast-csv");
 const fs = require("fs");
@@ -53,6 +54,8 @@ exports.data_prepare = (req, res) => {
 };
 
 exports.get_real_data = (req, res) => {
+    logger.info("req from", req.ip);
+    logger.info(req.query);
     const startTime = req.query.start_time;
     const limitCount = req.query.limit;
     var query_stmt = "SELECT * FROM VW_WINCH_REALTIME";
@@ -72,6 +75,7 @@ exports.get_real_data = (req, res) => {
     })
         .then(real_data => {
             res.send(real_data);
+            logger.debug(real_data);
             // Each record will now be an instance of Project
         })
 };
@@ -120,6 +124,7 @@ exports.get_status_define = (req, res) => {
     })
         .then(real_data => {
             res.send(real_data);
+            logger.debug(real_data);
             // Each record will now be an instance of Project
         })
    

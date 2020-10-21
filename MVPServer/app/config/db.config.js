@@ -61,5 +61,5 @@ const dbs = {
 
 dbs.sysdb.SystemDefine = require("../model/TAB_SYSTEM_DEFINE")(dbs.sysdb, Sequelize);
 dbs.datasetdb.RealTime = require("../model/TAB_REALTIME")(dbs.datasetdb, Sequelize);
-
+dbs.logger = env.logger;
 module.exports = dbs;

@@ -126,7 +126,7 @@ exports.export_data = (req, res) => {
     var his_table_name = "TAB_JOB_";
     his_table_name += req.query.jobId;
     var query_stmt = "SELECT * FROM  " + his_table_name + " order by timeTag";
-    var file_name = req.query.jobId + ".txt";
+    var file_name = "export_file/" + req.query.jobId + ".txt";
     const ws = g_fs.createWriteStream(file_name);
 
     db.query(query_stmt, {
@@ -134,8 +134,7 @@ exports.export_data = (req, res) => {
     })
         .then(real_data => {
             const jsonData = JSON.parse(JSON.stringify(real_data));
-            console.log("jsonData", jsonData);
-
+            //console.log("jsonData", jsonData);
             fastcsv
                 .write(jsonData, { headers: true })
                 .on("finish", function () {
@@ -220,6 +219,12 @@ exports.get_hisdata_by_runtimes = (req, res) => {
             res.send(real_data);
         })    
 };
+
+exports.download = (req, res) => {
+    const file = `${req.query.file_name}`;
+    res.download(file); // Set disposition and send it.
+};
+
 
 
 /*
