@@ -1,19 +1,15 @@
-
-var path = require("path");
-const log4js = require('log4js');
-
 const db_params = {
 
-    username: 'root',
+    //username: 'root',
     //password: 'op[]op[]',
     //host: 'localhost',
 
-    password: '123456',
-    host: '192.168.92.152',
+    //password: '123456',
+    //host: '192.168.92.152',
     
-    //username:'MVPUser',
-    //password:'MVP_Laurel_2020',
-    //host: '116.228.83.142',
+    username:'MVPUser',
+    password:'MVP_Laurel_2020',
+    host: '116.228.83.142',
 
     dialect: 'mysql',
     pool: {
@@ -23,12 +19,13 @@ const db_params = {
         idle: 1000000
     },
     dialectoptions: {
+        useUTC: false, // -->Add this line. for reading from database
         connectTimeout: 60000,
         options: {
             requestTimeout: 300000
         }
     },
-    
+    timezone: '+08:00', // -->Add this line. for writing to database
     define: {
         timestamps: false
     }
@@ -49,7 +46,7 @@ const db_params = {
 } 
  */
 
-log4js.configure({
+const log_configure = {
     appenders: {
         mvp: {
             type: 'dateFile',
@@ -60,9 +57,7 @@ log4js.configure({
         }
     },
     categories: { default: { appenders: ['mvp'], level: 'debug' } }
-});
-
-const logger = log4js.getLogger('mvp');
+};
 
 const env = {
     sysDB: {
@@ -81,7 +76,7 @@ const env = {
         database: 'DB_WINCH',
         params: db_params
     },
-    logger:logger
+    log_cfg:log_configure
 };
 
 module.exports = env;

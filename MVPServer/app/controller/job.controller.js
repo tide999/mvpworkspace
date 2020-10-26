@@ -1,6 +1,6 @@
 const fastcsv = require("fast-csv");
 const g_fs = require("fs");
-
+const logger = require('../config/db.config.js').logger;
 const db = require('../config/db.config.js').jobdb;
 
 
@@ -48,7 +48,7 @@ exports.add_job = (req, res) => {
     const dropTimes = req.body.dropTimes;
     const intervalTime = req.body.intervalTime;
     const safeDeep = req.body.safeDeep;
-
+    logger.info("add_job req from :", req.ip);
     var execStmt = "CALL sp_addJob(:jobName, :jobMode, :jobDeep, :dropTimes, :intervalTimes, :safeDeep)";
 
     db.query(execStmt, { replacements: { jobName: jobName, jobMode: jobMode, jobDeep: jobDeep, dropTimes: dropTimes, intervalTime: intervalTime, safeDeep: safeDeep } })
@@ -71,7 +71,7 @@ exports.add_job_get = (req, res) => {
     const safeDeep = req.query.safeDeep;
     const operateMode = req.query.operateMode;
     const operateSpeed = req.query.operateSpeed;
-
+    logger.info("add_job req from :", req.ip);
     var execStmt = "CALL sp_addJob(:jobName, :jobMode, :jobDeep, :dropTimes, :intervalTime, :safeDeep, :operateMode, :operateSpeed)";
 
     db.query(execStmt, {
@@ -128,7 +128,7 @@ exports.export_data = (req, res) => {
     var query_stmt = "SELECT * FROM  " + his_table_name + " order by timeTag";
     var file_name = "export_file/" + req.query.jobId + ".txt";
     const ws = g_fs.createWriteStream(file_name);
-
+    logger.info("export_data req from :", req.ip);
     db.query(query_stmt, {
         type: db.QueryTypes.SELECT
     })
@@ -142,7 +142,10 @@ exports.export_data = (req, res) => {
                     res.json({ fileName: file_name });
                 })
                 .pipe(ws);
-        })
+        }).catch(function (err) {
+            // handle error;
+            res.json({ error: "table does not exist" });
+        });
 };
 
 

@@ -29,6 +29,33 @@ const db_params = {
         timestamps: false
     }
 };
+/*
+ * 日志的级别：
+ * {
+  ALL 
+  TRACE
+  DEBUG
+  INFO
+  WARN
+  ERROR
+  FATAL
+  MARK
+  OFF 
+} 
+ */
+
+const log_configure = {
+    appenders: {
+        mvp: {
+            type: 'dateFile',
+            filename: 'mvpserver',
+            pattern: "yyyy-MM-dd.log",
+            alwaysIncludePattern: true,
+            category: 'normal'
+        }
+    },
+    categories: { default: { appenders: ['mvp'], level: 'debug' } }
+};
 
 const env = {
     sysDB: {
@@ -46,7 +73,8 @@ const env = {
     winchDB: {
         database: 'DB_WINCH',
         params: db_params
-    }
+    },
+    log_cfg: log_configure
 };
 
 module.exports = env;

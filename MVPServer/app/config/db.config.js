@@ -1,4 +1,4 @@
-//var fs = require('fs');
+const log4js = require('log4js');
 var configJson;
 console.log(process.cwd());
 
@@ -61,5 +61,5 @@ const dbs = {
 
 dbs.sysdb.SystemDefine = require("../model/TAB_SYSTEM_DEFINE")(dbs.sysdb, Sequelize);
 dbs.datasetdb.RealTime = require("../model/TAB_REALTIME")(dbs.datasetdb, Sequelize);
-dbs.logger = env.logger;
+dbs.logger = log4js.configure(env.log_cfg).getLogger('mvp');
 module.exports = dbs;
