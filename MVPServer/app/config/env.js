@@ -1,15 +1,15 @@
 const db_params = {
 
-    username: 'root',
+    //username: 'root',
     //password: 'op[]op[]',
     //host: 'localhost',
 
-    password: '123456',
-    host: '192.168.92.152',
+    //password: '123456',
+    //host: '192.168.92.152',
     
-    //username:'MVPUser',
-    //password:'MVP_Laurel_2020',
-    //host: '116.228.83.142',
+    username:'MVPUser',
+    password:'MVP_Laurel_2020',
+    host: '116.228.83.142',
 
     dialect: 'mysql',
     pool: {
@@ -19,12 +19,13 @@ const db_params = {
         idle: 1000000
     },
     dialectoptions: {
+        useUTC: false, // -->Add this line. for reading from database
         connectTimeout: 60000,
         options: {
             requestTimeout: 300000
         }
     },
-    
+    timezone: '+08:00', // -->Add this line. for writing to database
     define: {
         timestamps: false
     }

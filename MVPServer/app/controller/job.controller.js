@@ -229,6 +229,43 @@ exports.download = (req, res) => {
 };
 
 
+/*
+ 调用接口：
+ /api/job/get_export_file
+ 调用方法：
+ get
+ 参数：
+ jobId
+ 调用接口示例：
+ http://localhost:8080/api/job/get_export_file?jobId=20201020005603937
+ 返回：
+ 如果文件存在则返回的filePrepare的值为1，downloadFile中为将要下载的文件名称
+ 如果文件不存在，filePrepare的值为0
+ 返回格式：
+ [
+    {
+        "downloadFile": null,
+        "filePrepare": 0
+    }
+]
+ */
+ 
+exports.get_export_file = (req, res) => {
+    const jobId = req.query.jobId;
+    var query_stmt = "SELECT downloadFile, filePrepare FROM TAB_JOB";
+    if (jobId)
+        query_stmt += " where jobId = $jobId ";
+    db.query(query_stmt, {
+        bind: {
+            jobId: jobId
+        },
+        type: db.QueryTypes.SELECT
+    })
+        .then(real_data => {
+            res.send(real_data);
+        })
+};
+
 
 /*
 exports.add_job = (req, res) => {
