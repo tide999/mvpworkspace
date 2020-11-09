@@ -18,12 +18,10 @@ const db_params = {
         acquire: 300000,
         idle: 1000000
     },
-    dialectoptions: {
-        useUTC: false, // -->Add this line. for reading from database
-        connectTimeout: 60000,
-        options: {
-            requestTimeout: 300000
-        }
+    dialectOptions: {
+        dateStrings: true,
+        typeCast: true,
+        connectTimeout: 60000
     },
     timezone: '+08:00', // -->Add this line. for writing to database
     define: {
@@ -53,7 +51,11 @@ const log_configure = {
             filename: 'mvpserver',
             pattern: "yyyy-MM-dd.log",
             alwaysIncludePattern: true,
-            category: 'normal'
+            category: 'normal',
+            layout: {
+                type: 'pattern',
+                pattern: '%d %p %z %m%n'
+            }
         }
     },
     categories: { default: { appenders: ['mvp'], level: 'debug' } }

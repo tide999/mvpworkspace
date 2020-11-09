@@ -2,6 +2,7 @@ const db = require('../config/db.config.js').datasetdb;
 const SysDefine = db.SystemDefine;
 const RealTime = db.RealTime;
 const Op = db.Sequelize.Op;
+const logger = require('../config/db.config.js').logger;
 
 const fastcsv = require("fast-csv");
 const fs = require("fs");
@@ -13,7 +14,7 @@ exports.findAll = (req, res) => {
     const startTime = req.query.start_time;
     const limitCount = req.query.limit;
     var query_stmt = "SELECT * FROM VW_DATA_REALTIME";
-    if (startTime)0.
+    if (startTime)
         query_stmt += " where timeTag > $start_time ";
 
     query_stmt += "  order by timeTag desc";
@@ -21,6 +22,7 @@ exports.findAll = (req, res) => {
     if (limitCount)
         query_stmt += " limit $limit_count";
 
+    logger.info("findAll:", req.ip, query_stmt);
     db.query(query_stmt, {
             //model: RealTime,
         //mapToModel: false // 如果有任何映射字段，则在这里传递true
@@ -34,6 +36,12 @@ exports.findAll = (req, res) => {
             res.send(real_data);
             // Each record will now be an instance of Project
         })
+        .catch(function (err) {
+            // handle error;
+            res.json({ error: "findall" });
+            logger.warn("Execute ", query_stmt, "error:", err);
+        });
+
 };
 
 exports.exportRealtimeData = (req, res) => {

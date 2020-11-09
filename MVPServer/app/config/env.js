@@ -18,12 +18,10 @@ const db_params = {
         acquire: 300000,
         idle: 1000000
     },
-    dialectoptions: {
-        useUTC: false, // -->Add this line. for reading from database
+    dialectOptions: {
+        dateStrings: true,
+        typeCast: true,
         connectTimeout: 60000,
-        options: {
-            requestTimeout: 300000
-        }
     },
     timezone: '+08:00', // -->Add this line. for writing to database
     define: {

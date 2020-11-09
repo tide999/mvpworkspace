@@ -2,9 +2,10 @@
 
 var express = require('express');
 var app = express();
-var bodyParser = require('body-parser');
-app.use(bodyParser.json())
-
+//var bodyParser = require('body-parser');
+//app.use(bodyParser.json())
+//const urlencodedParser = app.use(bodyParser.urlencoded({ extended: false }));
+/*
 const cors = require('cors')
 const corsOptions = {
     origin: 'http://localhost:4200',
@@ -22,6 +23,7 @@ app.all('*', function (req, res, next) {
         next();
     }
 });
+*/
 
 const db = require('./app/config/db.config.js');
 

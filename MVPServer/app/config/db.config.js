@@ -26,28 +26,38 @@ const sequelizeSysDB = new Sequelize(env.sysDB.database, env.sysDB.params.userna
     dialect: env.sysDB.params.dialect,
  //   operatorsAliases: false,
     pool: env.sysDB.params.pool,
-    dialectoptions: env.sysDB.params.dialectoptions
+    dialectOptions: env.sysDB.params.dialectOptions,
+    timezone: env.sysDB.params.timezone
 });
 
 const sequelizeJobDB = new Sequelize(env.jobDB.database, env.jobDB.params.username, env.jobDB.params.password, {
     host: env.jobDB.params.host,
     dialect: env.jobDB.params.dialect,
    // operatorsAliases: false,
-    pool: env.jobDB.params.pool
+    pool: env.jobDB.params.pool,
+    dialectOptions: env.jobDB.params.dialectOptions,
+    timezone: env.jobDB.params.timezone
+
 });
 
 const sequelizeWinchDB = new Sequelize(env.winchDB.database, env.winchDB.params.username, env.winchDB.params.password, {
     host: env.winchDB.params.host,
     dialect: env.winchDB.params.dialect,
 //    operatorsAliases: false,
-    pool: env.winchDB.params.pool
+    pool: env.winchDB.params.pool,
+    dialectOptions: env.winchDB.params.dialectOptions,
+    timezone: env.winchDB.params.timezone
+
 });
 
 const sequelizeDatasetDB = new Sequelize(env.datasetDB.database, env.datasetDB.params.username, env.datasetDB.params.password, {
     host: env.sysDB.params.host,
     dialect: env.sysDB.params.dialect,
    // operatorsAliases: false,
-    pool: env.sysDB.params.pool
+    pool: env.sysDB.params.pool,
+    dialectOptions: env.datasetDB.params.dialectOptions,
+    timezone: env.datasetDB.params.timezone
+
 });
 
 

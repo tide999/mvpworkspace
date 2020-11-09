@@ -54,8 +54,6 @@ exports.data_prepare = (req, res) => {
 };
 
 exports.get_real_data = (req, res) => {
-    logger.info("req from", req.ip);
-    logger.info(req.query);
     const startTime = req.query.start_time;
     const limitCount = req.query.limit;
     var query_stmt = "SELECT * FROM VW_WINCH_REALTIME";
@@ -64,6 +62,7 @@ exports.get_real_data = (req, res) => {
     query_stmt += " order by timeTag desc";
     if (limitCount)
         query_stmt += " limit $limit_count"
+    logger.info("get_real_data", req.ip, query_stmt);
     db.query(query_stmt, {
         //model: RealTime,
         //mapToModel: false // 如果有任何映射字段，则在这里传递true
@@ -75,14 +74,20 @@ exports.get_real_data = (req, res) => {
     })
         .then(real_data => {
             res.send(real_data);
-            logger.debug(real_data);
+            //logger.debug(real_data);
             // Each record will now be an instance of Project
         })
+        .catch(function (err) {
+            // handle error;
+            res.json({ error: "get_real_data" });
+            logger.warn("Execute ", query_stmt, "error:", err);
+        });
+
 };
 
 exports.export_realtime_data = (req, res) => {
-  
     var query_stmt = "SELECT * FROM VW_WINCH_REALTIME";
+    logger.info("export_realtime_data", query_stmt);
     db.query(query_stmt, {
         type: db.QueryTypes.SELECT
     })
@@ -113,7 +118,7 @@ exports.get_status_define = (req, res) => {
         query_stmt += " and fieldName = $fieldName ";
     if (dataType)
         query_stmt += " and dataType = $dataType ";
-
+    logger.info("get_status_define", query_stmt);
     db.query(query_stmt, {
         bind: {
             wId: wId,
@@ -124,12 +129,16 @@ exports.get_status_define = (req, res) => {
     })
         .then(real_data => {
             res.send(real_data);
-            logger.debug(real_data);
+            //logger.debug(real_data);
             // Each record will now be an instance of Project
         })
-   
+        .catch(function (err) {
+            // handle error;
+            res.json({ error: "get_status_define" });
+            logger.warn("Execute ", query_stmt, "error:", err);
+        });
+  
 };
-
 
 /*
  * sequelize
