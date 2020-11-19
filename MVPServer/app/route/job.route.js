@@ -16,5 +16,6 @@ module.exports = app => {
     router.get("/get_hisdata_by_runtimes", job_ctl.get_hisdata_by_runtimes);
     router.get("/download", job_ctl.download);
     router.get("/get_export_file", job_ctl.get_export_file);
+    router.get("/get_finished_jobs", job_ctl.get_finished_jobs);
     app.use('/api/job', router);
 };

@@ -1,5 +1,6 @@
 const fastcsv = require("fast-csv");
 const g_fs = require("fs");
+//const { REAL } = require("sequelize/types");
 const logger = require('../config/db.config.js').logger;
 const db = require('../config/db.config.js').jobdb;
 
@@ -285,6 +286,28 @@ exports.get_export_file = (req, res) => {
         .then(real_data => {
             res.send(real_data);
         })
+};
+
+
+exports.get_finished_jobs = (req, res) => {
+
+    const query_stmt = "select jobid, jobName, jobMode, setDeep, dropTimes, intervaltime, safeDeep, jobStatus, opmode, opspeed, issuedTime, max(runtimes) as runtimes from VW_JOB_REALTIME \
+                        where jobStatus = 768 or jobStatus = 12288 \
+                        group by jobid, jobName, jobMode, setDeep, dropTimes, intervaltime, safeDeep, jobStatus, opmode, opspeed, issuedTime \
+                        order by issuedTime, max(runTimes) ";
+
+    db.query(query_stmt, {
+               type: db.QueryTypes.SELECT
+        })
+        .then(real_data => {
+            logger.info(real_data);
+            res.send(real_data);
+        })
+        .catch(function (err) {
+            // handle error;
+            res.json({ error: "get_finished_jobs" });
+            logger.warn("Execute ", query_stmt, "error:", err);
+        });
 };
 
 

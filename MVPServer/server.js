@@ -41,6 +41,11 @@ app.get("/", (req, res) => {
 });
 */
 
+app.use(express.static('dist'));
+app.get('/index.html', function (req, res) {
+    res.sendFile(__dirname + "/dist/" + "index.html");
+});
+
 require('./app/route/system-define.route')(app);
 require('./app/route/winch.route')(app);
 require('./app/route/job.route')(app);
