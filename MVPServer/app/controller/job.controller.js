@@ -310,6 +310,57 @@ exports.get_finished_jobs = (req, res) => {
         });
 };
 
+exports.getInstId = (jobId) => {
+    var query_stmt = "select instrumentId from DB_JOB.TAB_JOB where jobId = $jobId";
+    db.query(query_stmt, {
+        bind: {
+            jobId: jobId
+        },
+        type: db.QueryTypes.SELECT
+    })
+        .then(real_data => {
+            instId = real_data[0].instrumentId;
+            return instId;
+        })
+        .catch(function (err) {
+            // handle error;
+            res.json({ error: "prepare_job_view" });
+            logger.warn("Execute ", query_stmt, "error:", err);
+        });
+};
+
+exports.prepare_job_view = (req, res) => {
+
+    const jobId = req.query.jobId;
+    var query_stmt = "select instrumentId from DB_JOB.TAB_JOB where jobId = $jobId";
+    db.query(query_stmt, {
+        bind: {
+            jobId: jobId
+        },
+        type: db.QueryTypes.SELECT
+    })
+        .then(real_data => {
+            var instId = real_data[0].instrumentId;
+            var execStmt = "CALL `DB_DATASET`.`sp_dataPrepareByJobId_" + instId + "` (:in_JobId)";
+
+            db.query(execStmt, { replacements: { in_JobId: jobId } })
+                .then(data => {
+                    res.json({result:0});
+                    console.log("prepare_job_view job successfully!")
+                }
+                )
+                .catch(error => {
+                    res.json({ error: error });
+                    console.log("prepare_job_view job faled", error);
+                });
+        })
+        .catch(function (err) {
+            // handle error;
+            res.json({ error: "prepare_job_view" });
+            logger.warn("Execute ", query_stmt, "error:", err);
+        });
+
+};
 
 /*
 exports.add_job = (req, res) => {

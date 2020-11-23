@@ -17,5 +17,7 @@ module.exports = app => {
     router.get("/download", job_ctl.download);
     router.get("/get_export_file", job_ctl.get_export_file);
     router.get("/get_finished_jobs", job_ctl.get_finished_jobs);
+    router.get("/prepare_job_view", job_ctl.prepare_job_view);
+
     app.use('/api/job', router);
 };
