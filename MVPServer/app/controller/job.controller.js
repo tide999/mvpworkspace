@@ -363,6 +363,52 @@ exports.prepare_job_view = (req, res) => {
 };
 
 /*
+ * 
+'获取当前深度的具体数据
+'由于是按照四舍五入做的数据平均（深度为整数），因此给出深度值后需要获取当前投放次数下对应这个深度的所有数据。
+'输入：
+'in_DevDeep：深度数据的整数值
+'in_FieldName：需要获取的数据的列名
+'in_RunTimes：投放次数的数组，既详细数据所对应的投放次数。
+getMoreDataByDevDeep
+ * 
+ */
+
+exports.getMoreDataByDevDeep = (req, res) => {
+
+    const jobId = req.query.jobId;
+    const in_FieldName = req.query.field_name;
+    const s_Times = req.query.run_times;
+    const in_DevDeep = req.query.dev_deep;
+
+    var query_stmt = "select runTimes, " /*devDeep,*/
+        + in_FieldName
+        + " from DB_JOB.TAB_JOB_" + jobId
+        + " where runTimes in (" + s_Times + ") and floor(devDeep) = $dev_deep"
+        + " group by runTimes, devDeep, " + in_FieldName
+        + " order by runTimes, devDeep;";
+
+    logger.info(query_stmt);
+
+    db.query(query_stmt, {
+        bind: {
+            dev_deep: in_DevDeep
+        },
+        type: db.QueryTypes.SELECT
+    })
+        .then(real_data => {
+            res.send(real_data);
+        })
+        .catch(function (err) {
+            // handle error;
+            res.json({ error: "getMoreDataByDevDeep" });
+            logger.warn("Execute ", query_stmt, "error:", err);
+        });
+
+};
+
+
+/*
 exports.add_job = (req, res) => {
     const jobName = req.body.jobName;
     const jobMode = req.body.jobMode;
