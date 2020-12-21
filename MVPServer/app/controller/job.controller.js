@@ -218,7 +218,7 @@ exports.get_hisdata_by_runtimes = (req, res) => {
     else
         query_stmt += "VW_JOB_REALTIME ";
     if (run_times)
-        query_stmt += " where runTimes = $runTimes ";
+        query_stmt += " where runTimes = $runTimes order by devDeep";
     logger.info("get_hisdata_by_runtimes req :", req.ip, query_stmt);
     db.query(query_stmt, {
         bind: {
